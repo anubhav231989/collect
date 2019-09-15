@@ -1,0 +1,6 @@
+app_env/
+.vscode/
+*.pyc
+*.sqlite3
+migrations/
+
