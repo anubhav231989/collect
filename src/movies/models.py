@@ -1,5 +1,6 @@
 from django.db import models
 from django.utils import timezone
+from django.conf import settings
 
 # Create your models here.
 GENDER_CHOICES = (
@@ -9,6 +10,7 @@ GENDER_CHOICES = (
 
 GENRE_CHOICES = (
     ("ACTION","ACTION"),
+    ("CRIME","CRIME"),
     ("DRAMA","DRAMA"),
     ("THRILLER","THRILLER"),
     ("ROMANCE","ROMANCE"),
@@ -21,6 +23,7 @@ GENRE_CHOICES = (
 class Actor(models.Model):
     name = models.CharField(max_length=100)
     gender = models.CharField(max_length=2,choices=GENDER_CHOICES,default="M")
+    thumbnail = models.FileField(upload_to=settings.THUMBNAIL_UPLOAD_PATH, null=True,blank=True)
 
     def __str__(self):
         return self.name

@@ -39,12 +39,15 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     "quotes",
     "movies",
-    "rest_framework"
+    "rest_framework",
+    "corsheaders",
+    "django_nose"
 ]
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    "corsheaders.middleware.CorsMiddleware",
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -79,10 +82,9 @@ WSGI_APPLICATION = 'collect.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        'NAME': os.path.join(BASE_DIR, 'settings' ,'db.sqlite3'),
     }
 }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/2.2/ref/settings/#auth-password-validators
@@ -121,3 +123,22 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/2.2/howto/static-files/
 
 STATIC_URL = '/static/'
+
+CORS_ORIGIN_ALLOW_ALL = True
+
+TEST_RUNNER = 'django_nose.NoseTestSuiteRunner'
+TEST_OUTPUT_DIR = os.environ.get('TEST_OUTPUT_DIR','.')
+NOSE_ARGS = [
+  '--verbosity=2',                  # verbose output
+  '--nologcapture',                 # don't output log capture
+  '--with-coverage',                # activate coverage report
+#   '--cover-package=todo',           # coverage reports will apply to these packages
+  '--with-spec',                    # spec style tests
+  '--spec-color',
+  '--with-xunit',                   # enable xunit plugin
+  '--xunit-file=%s/unittests.xml' % TEST_OUTPUT_DIR,
+  '--cover-xml',                    # produce XML coverage info
+  '--cover-xml-file=%s/coverage.xml' % TEST_OUTPUT_DIR,
+]
+
+THUMBNAIL_UPLOAD_PATH = "./collect/thumbnails"
